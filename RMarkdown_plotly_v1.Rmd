@@ -1,0 +1,53 @@
+---
+title: "R Markdown Presentation & Plotly"
+author: "Nikhil Agrawal"
+date: "2/19/2023"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE,
+	tidy = TRUE,
+	tidy.opts = list(width.cutoff = 60)
+)
+```
+
+
+## Project Description
+Create a web page presentation using R Markdown that features a plot created with Plotly. 
+Host your webpage on either GitHub Pages, RPubs, or NeoCities. 
+Your webpage must contain the date that you created the document, and it must contain a plot created with Plotly
+
+```{r Date}
+date()
+```
+
+## Plotly - Interactive Plot 1: Time-Series Chart
+
+```{r echo=FALSE}
+library(datasets)
+library(plotly)
+data(uspop) ## Load the data set that gives the population of the United States in millions for the period 1790-1970
+## Plotly Command
+plot_ly(x=~time(uspop),y=~uspop,type="scatter",mode="lines") %>% layout(title = "U.S. Population in millions for the period 1790-1970", xaxis = list(title = "Year"),yaxis = list(title = "U.S. Population (millions)"))
+```
+
+
+## Cars Summary
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+
+## Thank you
