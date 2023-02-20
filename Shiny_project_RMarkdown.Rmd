@@ -1,0 +1,87 @@
+---
+title: "Shiny Application and Reproducible Pitch"
+author: "Nikhil Agrawal"
+date: "2023-02-20"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## Project Goal
+
+This peer assessed assignment has two parts.
+
+ First,  create a Shiny application and deploy it on Rstudio's servers.
+ 
+ Second, use Slidify or Rstudio Presenter to prepare a reproducible pitch presentation about your application.
+
+## Steps to Perform
+
+1. Write a shiny application with associated supporting documentation. The documentation should be thought of as whatever a user will need to get started using your application.
+2. Deploy the application on Rstudio's shiny server
+3. Share the application link by pasting it into the provided text box
+4. Share your server.R and ui.R code on github
+
+## How to use the application
+
+It is a simple application where you can choose the parameter (fuel consumption and 10 aspects of automobile design and performance) of the car which would display a comparison chart across 32 automobiles (1973–74 models) for data extracted from the 1974 Motor Trend US magazine.
+
+
+## Shiny Application File - UI.R
+
+library(shiny)
+library(datasets)
+Car_dataset <- datasets::mtcars
+
+fluidPage(     
+  titlePanel("Motor trend car road tests"), 
+  sidebarLayout(       
+    sidebarPanel(p(strong("Source:",style="color:red"), a("mtcars",href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html")), 
+                 selectInput("Param", "Parameter:",
+                             choices=colnames(Car_dataset))
+    ), 
+    mainPanel( 
+      plotOutput("car")   
+    ) 
+  ) 
+) 
+
+## Shiny Application File - Server.R
+
+library(shiny)
+library(datasets)
+Car_dataset <- datasets::mtcars
+
+function(input, output) { 
+  
+  series <- rownames(Car_dataset)
+  Title <- c("Miles/(US) gallon",
+             "Number of cylinders",
+             "Displacement (cu.in.)",
+             "Gross horsepower",
+             "Rear axle ratio",
+             "Weight (1000 lbs)",
+             "1/4 mile time",
+             "Engine (0 = V-shaped, 1 = straight)",
+             "Transmission (0 = automatic, 1 = manual)",
+             "Number of forward gears",
+             "Number of carburetors"
+  )
+  
+  output$car <- renderPlot({ 
+    par(mar=c(10, 4.1, 4.1, 2.1))
+    barplot(Car_dataset[,input$Param],names.arg = c(series),
+            las=3,cex.axis=1, cex.names=1,
+            main=Title[grep(input$Param, colnames(Car_dataset))],
+            ylab=input$Param)
+  })
+}
+
+## Shiny Application File - URL
+
+The application is running [here](https://azcb0m-nikhil-agrawal.shinyapps.io/project/).
+
+The ui.R and Server.R code are in my [github repository](https://github.com/nikhilagrl18/ML_assignment/tree/Shiny-Application-and-Reproducible-Pitch).
+
+
